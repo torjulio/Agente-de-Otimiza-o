@@ -1260,32 +1260,7 @@ jobs:
       uses: codecov/codecov-action@v3
 ```
 
-## 📄 Licença
 
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
-## 🤝 Contribuição
-
-Contribuições são sempre bem-vindas! Por favor, leia nosso [Guia de Contribuição](CONTRIBUTING.md) para detalhes sobre nosso código de conduta e o processo para enviar pull requests.
-
-## 📞 Suporte
-
-- **Documentação**: [Wiki do Projeto](https://github.com/seu-usuario/agente-otimizacao-codigo/wiki)
-- **Issues**: [GitHub Issues](https://github.com/seu-usuario/agente-otimizacao-codigo/issues)
-- **Discussões**: [GitHub Discussions](https://github.com/seu-usuario/agente-otimizacao-codigo/discussions)
-- **Email**: suporte@agente-otimizacao.com
-
-## 🙏 Agradecimentos
-
-- **FastAPI**: Framework web moderno e performático
-- **Crew AI**: Framework de orquestração de agentes
-- **PostgreSQL**: Banco de dados robusto e confiável
-- **Redis**: Cache distribuído de alta performance
-- **Comunidade Python**: Por todas as bibliotecas e ferramentas incríveis
-
----
-
-**Desenvolvido com ❤️ pela equipe do Agente de Otimização de Código**
 
 *Este projeto foi criado como parte do desafio técnico da Mirante Tecnologia, demonstrando habilidades em desenvolvimento de software, integração de sistemas, arquitetura de microserviços e liderança técnica.*
 
