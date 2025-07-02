@@ -1,6 +1,4 @@
 """
-Integrador Crew AI.
-
 Conecta o agente principal de otimização com o sistema de orquestração
 Crew AI, permitindo workflows complexos e colaboração entre agentes.
 """
@@ -18,8 +16,6 @@ logger = logging.getLogger(__name__)
 
 class IntegradorCrewAI:
     """
-    Integrador principal entre o agente de otimização e o Crew AI.
-    
     Coordena a execução de workflows complexos utilizando múltiplos
     agentes especializados para análise abrangente de código.
     """
@@ -34,9 +30,7 @@ class IntegradorCrewAI:
         solicitacao: SolicitacaoAnalise,
         usar_workflow_completo: bool = True
     ) -> RespostaAnalise:
-        """
-        Executa análise de código usando orquestração Crew AI.
-        
+        """    
         Args:
             solicitacao: Dados da solicitação de análise
             usar_workflow_completo: Se deve usar workflow completo ou análise simples
@@ -48,10 +42,8 @@ class IntegradorCrewAI:
         
         try:
             if usar_workflow_completo:
-                # Executa workflow completo com múltiplos agentes
                 resultado = await self._executar_workflow_completo(solicitacao)
             else:
-                # Executa análise simples com agente local
                 resultado = await self._executar_analise_simples(solicitacao)
             
             # Converte resultado para formato padrão da API
@@ -73,7 +65,6 @@ class IntegradorCrewAI:
     ) -> Dict[str, Any]:
         """Executa workflow completo com orquestração Crew AI."""
         
-        # Define prioridades baseadas na solicitação
         prioridades = self._determinar_prioridades(solicitacao)
         
         # Cria workflow
@@ -82,8 +73,6 @@ class IntegradorCrewAI:
             nome_arquivo=solicitacao.nome_arquivo,
             prioridades=prioridades
         )
-        
-        # Registra workflow em execução
         self.workflows_em_execucao[workflow_id] = {
             'solicitacao': solicitacao,
             'inicio': datetime.now(),
@@ -91,10 +80,8 @@ class IntegradorCrewAI:
         }
         
         try:
-            # Executa workflow
             resultado = await self.orquestrador.executar_workflow(workflow_id)
-            
-            # Atualiza status
+
             self.workflows_em_execucao[workflow_id]['status'] = 'concluido'
             self.workflows_em_execucao[workflow_id]['resultado'] = resultado
             
@@ -133,10 +120,8 @@ class IntegradorCrewAI:
         if solicitacao.focar_performance:
             prioridades.append("performance")
         
-        # Sempre inclui boas práticas para análise completa
         prioridades.extend(["boas_praticas", "seguranca"])
         
-        # Adiciona prioridades baseadas no nível de detalhamento
         if solicitacao.nivel_detalhamento.value == "avancado":
             prioridades.extend(["complexidade", "manutencao"])
         
@@ -153,15 +138,13 @@ class IntegradorCrewAI:
         tempo_analise = (datetime.now() - inicio_tempo).total_seconds()
         
         if resultado.get('tipo_execucao') == 'analise_simples':
-            # Resultado de análise simples
             sugestoes = resultado['sugestoes']
             pontuacao = resultado['pontuacao_qualidade']
         else:
             # Resultado de workflow completo
             sugestoes = await self._extrair_sugestoes_do_workflow(resultado)
             pontuacao = self._calcular_pontuacao_do_workflow(resultado)
-        
-        # Gera resumo das melhorias
+
         resumo = self._gerar_resumo_melhorias(sugestoes)
         
         return RespostaAnalise(
@@ -180,7 +163,6 @@ class IntegradorCrewAI:
         """Extrai e converte sugestões do resultado do workflow."""
         sugestoes = []
         
-        # Processa resultados de cada tarefa
         resultados_tarefas = resultado_workflow.get('resultados_por_tarefa', {})
         
         for tarefa_id, resultado_tarefa in resultados_tarefas.items():
@@ -258,18 +240,15 @@ class IntegradorCrewAI:
     def _calcular_pontuacao_do_workflow(self, resultado_workflow: Dict[str, Any]) -> float:
         """Calcula pontuação de qualidade baseada no resultado do workflow."""
         
-        # Extrai métricas finais se disponíveis
         metricas_finais = resultado_workflow.get('resultados_por_tarefa', {}).get(
             'consolidacao_resultados', {}
         ).get('metricas_finais', {})
         
         if metricas_finais:
-            # Média ponderada das métricas
             score_qualidade = metricas_finais.get('score_qualidade', 80.0)
             score_performance = metricas_finais.get('score_performance', 80.0)
             score_seguranca = metricas_finais.get('score_seguranca', 90.0)
             
-            # Pesos: qualidade 40%, performance 35%, segurança 25%
             pontuacao_final = (
                 score_qualidade * 0.4 +
                 score_performance * 0.35 +
@@ -278,7 +257,6 @@ class IntegradorCrewAI:
             
             return round(pontuacao_final, 2)
         
-        # Fallback para pontuação padrão
         return 75.0
     
     def _gerar_resumo_melhorias(self, sugestoes: List[Sugestao]) -> str:
@@ -286,13 +264,11 @@ class IntegradorCrewAI:
         if not sugestoes:
             return "Nenhuma melhoria específica identificada. Código em boa qualidade."
         
-        # Agrupa sugestões por tipo
         tipos_count = {}
         for sugestao in sugestoes:
             tipo = sugestao.tipo.value
             tipos_count[tipo] = tipos_count.get(tipo, 0) + 1
         
-        # Identifica principais áreas de melhoria
         principais_tipos = sorted(
             tipos_count.items(),
             key=lambda x: x[1],
@@ -318,7 +294,6 @@ class IntegradorCrewAI:
             
             resumo_partes.append(f"Principais áreas: {', '.join(areas_principais)}.")
         
-        # Adiciona sugestão de prioridade alta se houver
         sugestoes_alta_prioridade = [s for s in sugestoes if s.prioridade >= 8]
         if sugestoes_alta_prioridade:
             resumo_partes.append(
