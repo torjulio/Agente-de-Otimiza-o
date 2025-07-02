@@ -1,6 +1,4 @@
 """
-Serviço de Orquestração com Crew AI.
-
 Implementa a integração com o framework Crew AI para orquestração
 de agentes e workflows de otimização de código.
 """
@@ -42,13 +40,7 @@ class AgenteCrewAI:
     ativo: bool = True
 
 class OrquestradorCrewAI:
-    """
-    Orquestrador principal para integração com Crew AI.
-    
-    Simula e documenta como seria a integração real com o framework
-    Crew AI para orquestração de agentes de otimização.
-    """
-    
+
     def __init__(self):
         self.configuracao = ConfiguracaoCrewAI()
         self.agentes_registrados = {}
@@ -168,7 +160,6 @@ class OrquestradorCrewAI:
         """Define as tarefas do workflow baseadas no código e prioridades."""
         tarefas = []
         
-        # Tarefa 1: Análise inicial de estrutura
         tarefas.append(TarefaWorkflow(
             id="analise_estrutura",
             nome="Análise de Estrutura do Código",
@@ -177,7 +168,6 @@ class OrquestradorCrewAI:
             dependencias=[]
         ))
         
-        # Tarefa 2: Análise de performance (se prioritária)
         if "performance" in prioridades or not prioridades:
             tarefas.append(TarefaWorkflow(
                 id="analise_performance",
@@ -207,7 +197,6 @@ class OrquestradorCrewAI:
                 dependencias=["analise_estrutura"]
             ))
         
-        # Tarefa 5: Consolidação de resultados
         tarefas.append(TarefaWorkflow(
             id="consolidacao_resultados",
             nome="Consolidação de Resultados",
@@ -242,7 +231,6 @@ class OrquestradorCrewAI:
             resultados_tarefas = {}
             
             for tarefa in workflow['tarefas']:
-                # Verifica se as dependências foram concluídas
                 if self._dependencias_concluidas(tarefa, resultados_tarefas):
                     resultado = await self._executar_tarefa(tarefa, workflow['codigo'])
                     resultados_tarefas[tarefa.id] = resultado
@@ -258,7 +246,6 @@ class OrquestradorCrewAI:
             workflow['fim_execucao'] = datetime.now()
             workflow['resultados'] = resultados_finais
             
-            # Adiciona ao histórico
             self.historico_execucoes.append({
                 'workflow_id': workflow_id,
                 'timestamp': datetime.now(),
@@ -303,7 +290,6 @@ class OrquestradorCrewAI:
         if not agente:
             raise ValueError(f"Agente {tarefa.agente_responsavel} não encontrado")
         
-        # Simula a execução baseada no tipo de tarefa
         resultado = {}
         
         if tarefa.id == "analise_estrutura":
