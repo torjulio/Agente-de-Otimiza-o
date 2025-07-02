@@ -1,6 +1,4 @@
 """
-Serviço de Análise de Código Python.
-
 Implementei a lógica principal para análise e otimização de código Python,
 identificando problemas de performance, legibilidade e boas práticas.
 """
@@ -171,7 +169,6 @@ class AnalisadorCodigo:
                         codigo_sugerido="# Considere usar funções auxiliares ou algoritmos mais eficientes"
                     ))
         
-        # Detecta concatenação ineficiente de strings
         for i, linha in enumerate(linhas, 1):
             if re.search(self.regras_analise['performance']['concatenacao_strings']['padrao'], linha):
                 sugestoes.append(Sugestao(
@@ -206,7 +203,6 @@ class AnalisadorCodigo:
         sugestoes = []
         linhas = codigo.split('\n')
         
-        # Verifica linhas muito longas
         for i, linha in enumerate(linhas, 1):
             if len(linha) > self.regras_analise['legibilidade']['linhas_muito_longas']['limite']:
                 sugestoes.append(Sugestao(
@@ -235,7 +231,6 @@ class AnalisadorCodigo:
                         prioridade=4
                     ))
         
-        # Verifica funções muito longas
         for node in ast.walk(arvore_ast):
             if isinstance(node, ast.FunctionDef):
                 linhas_funcao = self._contar_linhas_funcao(node)
@@ -273,7 +268,6 @@ class AnalisadorCodigo:
                         prioridade=5
                     ))
         
-        # Verifica exceções genéricas
         for i, linha in enumerate(linhas, 1):
             if re.search(self.regras_analise['boas_praticas']['excecoes_genericas']['padrao'], linha):
                 sugestoes.append(Sugestao(
@@ -376,7 +370,6 @@ class AnalisadorCodigo:
                 'type_hints': len(re.findall(r':\s*\w+', codigo)) * 2,
             }
             
-            # Aplica bônus
             for tipo, valor in bonus.items():
                 pontuacao += min(valor, 10) 
             
