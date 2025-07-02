@@ -1,0 +1,72 @@
+
+# Compilados do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Arquivos de log
+*.log
+
+# Configurações de ambiente
+.env
+.venv/
+venv/
+ENV/
+env/
+
+# IDEs e editores
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Testes e cobertura
+.coverage
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+
+# Distribuição
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# pip tools
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtualenv
+*.pyd
+*.pyo
+
+# Arquivos de banco de dados temporários
+*.sqlite3
+
+# Jupyter Notebooks (checkpoints)
+.ipynb_checkpoints/
+
+# PyInstaller
+*.spec
+
+# mypy
+.mypy_cache/
+
+# Pylint
+pylint-report.txt
+pylint-global.rc
+
+# VS Code settings
+.vscode/
+
+# Outros arquivos temporários
+*.bak
+*.tmp
+*.swp
+*.swo
