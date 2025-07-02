@@ -1,7 +1,7 @@
 """
 Serviço de Análise de Código Python.
 
-Implementa a lógica principal para análise e otimização de código Python,
+Implementei a lógica principal para análise e otimização de código Python,
 identificando problemas de performance, legibilidade e boas práticas.
 """
 
@@ -101,7 +101,6 @@ class AnalisadorCodigo:
         focar_performance: bool = False
     ) -> List[Sugestao]:
         """
-        Analisa o código Python e retorna sugestões de otimização.
         
         Args:
             codigo: Código Python a ser analisado
@@ -115,10 +114,8 @@ class AnalisadorCodigo:
         logger.info("Iniciando análise de código...")
         
         try:
-            # Parse do código para AST
             arvore_ast = ast.parse(codigo)
             
-            # Lista para armazenar todas as sugestões
             sugestoes = []
             
             # Análises específicas baseadas no nível de detalhamento
@@ -133,7 +130,6 @@ class AnalisadorCodigo:
                 sugestoes.extend(await self._analisar_seguranca(codigo, arvore_ast))
                 sugestoes.extend(await self._analisar_complexidade(codigo, arvore_ast))
             
-            # Ordena sugestões por prioridade (maior prioridade primeiro)
             sugestoes.sort(key=lambda x: x.prioridade, reverse=True)
             
             # Limita o número de sugestões baseado no nível
@@ -371,7 +367,7 @@ class AnalisadorCodigo:
             
             # Aplica penalidades
             for tipo, valor in penalidades.items():
-                pontuacao -= min(valor, 20)  # Máximo 20 pontos de penalidade por tipo
+                pontuacao -= min(valor, 20) 
             
             # Bônus por boas práticas
             bonus = {
@@ -382,13 +378,13 @@ class AnalisadorCodigo:
             
             # Aplica bônus
             for tipo, valor in bonus.items():
-                pontuacao += min(valor, 10)  # Máximo 10 pontos de bônus por tipo
+                pontuacao += min(valor, 10) 
             
             return max(0, min(100, pontuacao))
             
         except Exception as e:
             logger.error(f"Erro ao calcular pontuação: {e}")
-            return 50.0  # Pontuação padrão em caso de erro
+            return 50.0 
     
     def _contar_loops_aninhados(self, node: ast.AST, nivel: int = 0) -> int:
         """Conta o nível de aninhamento de loops."""
@@ -406,7 +402,7 @@ class AnalisadorCodigo:
     
     def _calcular_complexidade_ciclomatica(self, node: ast.FunctionDef) -> int:
         """Calcula a complexidade ciclomática de uma função."""
-        complexidade = 1  # Complexidade base
+        complexidade = 1 
         
         for child in ast.walk(node):
             if isinstance(child, (ast.If, ast.While, ast.For, ast.ExceptHandler)):
