@@ -192,10 +192,10 @@ REDIS_DB=0
 # Configurações da Aplicação
 ENVIRONMENT=development
 LOG_LEVEL=INFO
-SECRET_KEY=sua_chave_secreta_super_segura
+SECRET_KEY=
 
 # Crew AI (opcional)
-CREW_AI_API_KEY=sua_chave_crew_ai
+CREW_AI_API_KEY=
 
 # Monitoramento
 ENABLE_MONITORING=true
