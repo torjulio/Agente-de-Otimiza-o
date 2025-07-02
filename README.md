@@ -120,7 +120,7 @@ A forma mais simples de executar o projeto é usando Docker Compose:
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/seu-usuario/agente-otimizacao-codigo.git
+git clone https://github.com/torjulio/agente-otimizacao-codigo.git
 cd agente-otimizacao-codigo
 
 # 2. Configure as variáveis de ambiente
