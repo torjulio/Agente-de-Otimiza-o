@@ -34,7 +34,7 @@ class GerenciadorCache:
     
     def __init__(self):
         self.redis_client = None
-        self.cache_local = {}  # Fallback para cache em memória
+        self.cache_local = {} 
         self.config = self._carregar_configuracao_cache()
         self.estatisticas = {
             'hits': 0,
@@ -50,10 +50,10 @@ class GerenciadorCache:
             'redis_host': 'localhost',
             'redis_port': 6379,
             'redis_db': 0,
-            'ttl_padrao': 3600,  # 1 hora
-            'ttl_analises': 7200,  # 2 horas
-            'ttl_estatisticas': 300,  # 5 minutos
-            'max_cache_local': 1000,  # Máximo de itens no cache local
+            'ttl_padrao': 3600,  
+            'ttl_analises': 7200,  
+            'ttl_estatisticas': 300,  
+            'max_cache_local': 1000, 
             'prefixo_chaves': 'agente_otimizacao:'
         }
     
@@ -68,12 +68,11 @@ class GerenciadorCache:
                 host=self.config['redis_host'],
                 port=self.config['redis_port'],
                 db=self.config['redis_db'],
-                decode_responses=False,  # Para suportar pickle
+                decode_responses=False,  
                 socket_connect_timeout=5,
                 socket_timeout=5
             )
             
-            # Testa a conexão
             await self.redis_client.ping()
             logger.info("Cache Redis inicializado com sucesso")
             
@@ -137,7 +136,6 @@ class GerenciadorCache:
         chave = self._gerar_chave_cache("analise", hash_codigo)
         ttl_final = ttl or self.config['ttl_analises']
         
-        # Adiciona metadados ao resultado
         dados_cache = {
             'resultado': resultado_analise,
             'timestamp': datetime.now().isoformat(),
@@ -185,7 +183,6 @@ class GerenciadorCache:
                     self.estatisticas['deletes'] += len(chaves)
                     logger.info(f"Invalidadas {len(chaves)} chaves do usuário {identificador_usuario}")
             else:
-                # Cache local - remove chaves que começam com o padrão
                 chaves_remover = [
                     k for k in self.cache_local.keys()
                     if k.startswith(padrao.replace('*', ''))
@@ -200,7 +197,6 @@ class GerenciadorCache:
     async def limpar_cache_expirado(self):
         """Remove entradas expiradas do cache local."""
         if self.redis_client:
-            # Redis gerencia expiração automaticamente
             return
         
         agora = datetime.now()
@@ -225,7 +221,6 @@ class GerenciadorCache:
             'configuracao': self.config.copy()
         }
         
-        # Calcula taxa de acerto
         total_acessos = self.estatisticas['hits'] + self.estatisticas['misses']
         if total_acessos > 0:
             info['taxa_acerto'] = (self.estatisticas['hits'] / total_acessos) * 100
@@ -266,7 +261,6 @@ class GerenciadorCache:
                 logger.error(f"Erro ao obter do Redis: {e}")
                 return None
         else:
-            # Cache local
             dados = self.cache_local.get(chave)
             if dados and isinstance(dados, dict):
                 # Verifica expiração
@@ -291,9 +285,7 @@ class GerenciadorCache:
     
     async def _salvar_cache_local(self, chave: str, valor: Any, ttl: int):
         """Salva valor no cache local."""
-        # Verifica limite do cache local
         if len(self.cache_local) >= self.config['max_cache_local']:
-            # Remove item mais antigo (FIFO simples)
             chave_mais_antiga = next(iter(self.cache_local))
             del self.cache_local[chave_mais_antiga]
         
@@ -315,6 +307,5 @@ class GerenciadorCache:
         # Limpa cache local
         self.cache_local.clear()
 
-# Instância global do gerenciador de cache
 gerenciador_cache = GerenciadorCache()
 
