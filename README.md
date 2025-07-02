@@ -1035,7 +1035,7 @@ logger.info(
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/seu-usuario/agente-otimizacao-codigo.git
+git clone https://github.com/torjulio/agente-otimizacao-codigo.git
 cd agente-otimizacao-codigo
 
 # 2. Configure o ambiente virtual
