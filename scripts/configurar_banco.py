@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 """
-Script de Configuração do Banco de Dados.
-
 Este script configura o banco PostgreSQL para o agente de otimização,
 criando o banco de dados, usuário e tabelas necessárias.
 """
@@ -12,13 +10,11 @@ import sys
 import os
 from pathlib import Path
 
-# Adiciona o diretório pai ao path para importar módulos
 sys.path.append(str(Path(__file__).parent.parent))
 
 import asyncpg
 from configuracao.configuracao_bd import ConfiguracaoBancoDados
 
-# Configuração de logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -30,13 +26,12 @@ async def criar_banco_se_nao_existir():
     config = ConfiguracaoBancoDados()
     
     try:
-        # Conecta ao banco postgres padrão para criar o banco da aplicação
         conexao = await asyncpg.connect(
             host=config.host,
             port=config.porta,
             user=config.usuario,
             password=config.senha,
-            database='postgres'  # Conecta ao banco padrão
+            database='postgres'
         )
         
         # Verifica se o banco já existe
@@ -254,7 +249,6 @@ async def verificar_conexao():
         resultado = await conexao.fetchval("SELECT version()")
         logger.info(f"Conexão bem-sucedida! PostgreSQL: {resultado}")
         
-        # Verifica se as tabelas existem
         tabelas = await conexao.fetch(
             """
             SELECT table_name 
@@ -285,16 +279,13 @@ async def main():
         sys.exit(1)
     
     try:
-        # Passo 1: Criar banco se não existir
         await criar_banco_se_nao_existir()
         
-        # Passo 2: Criar tabelas
         await criar_tabelas()
-        
-        # Passo 3: Inserir dados iniciais
+
         await inserir_dados_iniciais()
         
-        # Passo 4: Verificar se tudo está funcionando
+        #  Verifica se tudo está funcionando
         if await verificar_conexao():
             logger.info("✅ Configuração do banco concluída com sucesso!")
         else:
