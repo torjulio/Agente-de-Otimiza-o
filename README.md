@@ -15,8 +15,7 @@
 - [Monitoramento](#-monitoramento)
 - [Desenvolvimento](#-desenvolvimento)
 - [Testes](#-testes)
-- [Contribuição](#-contribuição)
-- [Licença](#-licença)
+
 
 ## 🎯 Visão Geral
 
