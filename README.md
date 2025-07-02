@@ -162,8 +162,8 @@ createdb agente_otimizacao
 export POSTGRES_HOST=localhost
 export POSTGRES_PORT=5432
 export POSTGRES_DB=agente_otimizacao
-export POSTGRES_USER=seu_usuario
-export POSTGRES_PASSWORD=sua_senha
+export POSTGRES_USER=
+export POSTGRES_PASSWORD=
 
 # 6. Execute as migrações
 python scripts/configurar_banco.py
