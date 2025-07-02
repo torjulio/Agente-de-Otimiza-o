@@ -1,6 +1,4 @@
 """
-Monitor do Sistema.
-
 Implementa monitoramento abrangente do agente de otimização,
 incluindo métricas de performance, saúde dos serviços e alertas.
 """
@@ -45,7 +43,7 @@ class AlertaMonitoramento:
     """Representa um alerta do sistema de monitoramento."""
     id: str
     tipo: str
-    severidade: str  # baixa, media, alta, critica
+    severidade: str 
     titulo: str
     descricao: str
     timestamp: datetime
@@ -53,9 +51,7 @@ class AlertaMonitoramento:
     dados_contexto: Optional[Dict[str, Any]] = None
 
 class MonitorSistema:
-    """
-    Monitor principal do sistema de otimização.
-    
+    """  
     Coleta métricas, detecta problemas e gera alertas para
     garantir a operação saudável do sistema.
     """
@@ -83,10 +79,10 @@ class MonitorSistema:
             'memoria_alta': 80.0,
             'disco_critico': 95.0,
             'disco_alto': 85.0,
-            'tempo_analise_lento': 30.0,  # segundos
-            'cache_hit_rate_baixo': 50.0,  # percentual
+            'tempo_analise_lento': 30.0,
+            'cache_hit_rate_baixo': 50.0,
             'erros_por_minuto_alto': 10,
-            'max_historico_metricas': 1440,  # 24 horas (1 por minuto)
+            'max_historico_metricas': 1440,
             'intervalo_coleta_segundos': 60
         }
     
@@ -100,12 +96,11 @@ class MonitorSistema:
                 await self._verificar_alertas()
                 await self._limpar_dados_antigos()
                 
-                # Aguarda próxima coleta
                 await asyncio.sleep(self.configuracao_alertas['intervalo_coleta_segundos'])
                 
             except Exception as e:
                 logger.error(f"Erro no loop de monitoramento: {e}")
-                await asyncio.sleep(30)  # Aguarda antes de tentar novamente
+                await asyncio.sleep(30)
     
     async def _coletar_metricas(self):
         """Coleta métricas do sistema e da aplicação."""
@@ -129,7 +124,6 @@ class MonitorSistema:
         except Exception as e:
             logger.error(f"Erro ao coletar métricas do sistema: {e}")
         
-        # Métricas da aplicação
         try:
             metricas_app = await self._coletar_metricas_aplicacao(agora)
             self.metricas_aplicacao_historico.append(metricas_app)
@@ -142,28 +136,24 @@ class MonitorSistema:
     async def _coletar_metricas_aplicacao(self, timestamp: datetime) -> MetricasAplicacao:
         """Coleta métricas específicas da aplicação."""
         
-        # Calcula análises por minuto
         analises_por_minuto = 0.0
         if self.ultima_coleta:
             intervalo_minutos = (timestamp - self.ultima_coleta).total_seconds() / 60
             if intervalo_minutos > 0:
                 analises_por_minuto = self.contador_analises / intervalo_minutos
         
-        # Calcula tempo médio de análise
         tempo_medio = 0.0
         if self.tempos_analise:
             tempo_medio = sum(self.tempos_analise) / len(self.tempos_analise)
         
-        # Calcula erros por minuto
         erros_por_minuto = 0.0
         if self.ultima_coleta:
             intervalo_minutos = (timestamp - self.ultima_coleta).total_seconds() / 60
             if intervalo_minutos > 0:
                 erros_por_minuto = self.contador_erros / intervalo_minutos
-        
-        # Obtém uso de memória do processo atual
+
         processo_atual = psutil.Process()
-        memoria_app = processo_atual.memory_info().rss / (1024 * 1024)  # MB
+        memoria_app = processo_atual.memory_info().rss / (1024 * 1024)
         
         metricas = MetricasAplicacao(
             timestamp=timestamp,
@@ -195,8 +185,7 @@ class MonitorSistema:
     async def _obter_workflows_ativos(self) -> int:
         """Obtém número de workflows ativos."""
         try:
-            # Aqui você integraria com o orquestrador para obter workflows ativos
-            return 0  # Placeholder
+            return 0  
         except Exception:
             return 0
     
