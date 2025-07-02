@@ -143,7 +143,7 @@ Para desenvolvimento local sem Docker:
 
 ```bash
 # 1. Clone e entre no diretório
-git clone https://github.com/seu-usuario/agente-otimizacao-codigo.git
+git clone https://github.com/torjulio/agente-otimizacao-codigo.git
 cd agente-otimizacao-codigo
 
 # 2. Crie um ambiente virtual
