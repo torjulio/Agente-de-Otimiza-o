@@ -25,9 +25,9 @@ class TestFuncionalBasico:
         try:
             sugestoes = await analisador.analisar_codigo(codigo)
             assert isinstance(sugestoes, list)
-            print(f"✅ Análise concluída com {len(sugestoes)} sugestões")
+            print(f" Análise concluída com {len(sugestoes)} sugestões")
         except Exception as e:
-            print(f"❌ Erro na análise: {e}")
+            print(f" Erro na análise: {e}")
             # Não falha o teste, apenas reporta
     
     def test_calcular_pontuacao(self):
@@ -40,7 +40,7 @@ class TestFuncionalBasico:
         
         assert isinstance(pontuacao, (int, float))
         assert 0 <= pontuacao <= 100
-        print(f"✅ Pontuação calculada: {pontuacao}")
+        print(f" Pontuação calculada: {pontuacao}")
     
     @pytest.mark.asyncio
     async def test_diferentes_niveis(self):
@@ -51,9 +51,9 @@ class TestFuncionalBasico:
         for nivel in [NivelDetalhamento.BASICO, NivelDetalhamento.INTERMEDIARIO, NivelDetalhamento.AVANCADO]:
             try:
                 sugestoes = await analisador.analisar_codigo(codigo, nivel)
-                print(f"✅ Nível {nivel.value}: {len(sugestoes)} sugestões")
+                print(f" Nível {nivel.value}: {len(sugestoes)} sugestões")
             except Exception as e:
-                print(f"❌ Erro no nível {nivel.value}: {e}")
+                print(f" Erro no nível {nivel.value}: {e}")
     
     def test_validacao_codigo_vazio(self):
         """Testa validação de código vazio."""
@@ -61,9 +61,9 @@ class TestFuncionalBasico:
         
         try:
             pontuacao = analisador.calcular_pontuacao_qualidade("")
-            print(f"⚠️  Código vazio retornou pontuação: {pontuacao}")
+            print(f"  Código vazio retornou pontuação: {pontuacao}")
         except Exception as e:
-            print(f"✅ Código vazio corretamente rejeitado: {e}")
+            print(f" Código vazio corretamente rejeitado: {e}")
     
     def test_codigo_com_problemas(self):
         """Testa código com problemas óbvios."""
@@ -77,7 +77,7 @@ def f(x):
 """
         
         pontuacao = analisador.calcular_pontuacao_qualidade(codigo_problematico)
-        print(f"✅ Código problemático - Pontuação: {pontuacao}")
+        print(f" Código problemático - Pontuação: {pontuacao}")
         
         # Deve ter pontuação menor que código bem escrito
         assert pontuacao < 100
@@ -87,9 +87,9 @@ def test_importacoes():
     try:
         from servicos.analisador_codigo import AnalisadorCodigo
         from modelos.schemas import SolicitacaoAnalise, NivelDetalhamento
-        print("✅ Todas as importações funcionam")
+        print(" Todas as importações funcionam")
     except ImportError as e:
-        print(f"❌ Erro de importação: {e}")
+        print(f" Erro de importação: {e}")
         pytest.fail(f"Erro de importação: {e}")
 
 def test_estrutura_projeto():
@@ -106,11 +106,11 @@ def test_estrutura_projeto():
     for arquivo in arquivos_essenciais:
         assert os.path.exists(arquivo), f"Arquivo essencial não encontrado: {arquivo}"
     
-    print("✅ Estrutura do projeto está correta")
+    print(" Estrutura do projeto está correta")
 
 if __name__ == "__main__":
     # Executa testes básicos
-    print("🧪 Executando testes funcionais básicos...")
+    print(" Executando testes funcionais básicos...")
     
     # Teste de importações
     test_importacoes()
@@ -132,5 +132,5 @@ if __name__ == "__main__":
     
     asyncio.run(executar_testes_async())
     
-    print("✅ Todos os testes funcionais básicos concluídos!")
+    print(" Todos os testes funcionais básicos concluídos!")
 
